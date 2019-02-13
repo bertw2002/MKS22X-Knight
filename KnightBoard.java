@@ -59,4 +59,33 @@ public class KnightBoard{
     }
 
   }
+  //checks if move isn't out of bounds.
+  public boolean isValid(int row, int col){
+    if (row < 0 || col < 0 || row > startingRow || col > startingCol){
+      return false;
+    }
+    return true;
+  }
+  //helper for solve.
+  public boolean solveHelper(int startingRow, int startingCol, int level){
+    if (level == startingRow * startingCol){
+      return true;
+    }
+    board[startingRow][startingCol] = level;
+    //sets the next spot where the knight is going to go.
+    int x = -1;
+    int y = -1;
+    if (isValid(startingRow + 2, startingCol + 1)){
+      x = startingRow + 2;
+      y = startingCol + 1;
+    }
+    //if nothing valid, backtrack.
+    if (x == -1){
+      board[startingRow][startingCol] = 0;
+      //figure out how to not repeat the last step again.
+      return solveHelper(startingRow, startingCol, level);
+    }
+
+    )
+  }
 }
