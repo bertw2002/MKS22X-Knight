@@ -67,24 +67,96 @@ public class KnightBoard{
     return true;
   }
   //helper for solve.
-  public boolean solveHelper(int startingRow, int startingCol, int level){
-    if (level == startingRow * startingCol){
+  //whichMove makes sure knight doesn't repeat the same deadends.
+  public boolean solveHelper(int startingRow, int startingCol, int level, int whichMove){
+    if (level == startingRow * startingCol + 1){
       return true;
+    }
+    if (level = 1 && whichMove == 8){
+      return false;
     }
     board[startingRow][startingCol] = level;
     //sets the next spot where the knight is going to go.
     int x = -1;
     int y = -1;
     if (isValid(startingRow + 2, startingCol + 1)){
-      x = startingRow + 2;
-      y = startingCol + 1;
+      //if this move didn't work before, code makes sure it doesn't happen again.
+      if (whichMove < 1){
+        x = startingRow + 2;
+        y = startingCol + 1;
+        board[x][y] = level;
+        return solveHelper(x, y, level + 1, 0);
+      }
+
+    }
+    if (isValid(startingRow - 2, startingCol + 1)){
+      if (whichMove < 2){
+        x = startingRow - 2;
+        y = startingCol + 1;
+        board[x][y] = level;
+        return solveHelper(x, y, level + 1, 0);
+      }
+
+    }
+    if (isValid(startingRow + 2, startingCol - 1)){
+      if (whichMove < 3){
+        x = startingRow + 2;
+        y = startingCol - 1;
+        board[x][y] = level;
+        return solveHelper(x, y, level + 1, 0);
+      }
+
+    }
+    if (isValid(startingRow - 2, startingCol - 1)){
+      if (whichMove < 4){
+        x = startingRow - 2;
+        y = startingCol - 1;
+        board[x][y] = level;
+        return solveHelper(x, y, level + 1, 0);
+      }
+
+    }
+    if (isValid(startingRow + 1, startingCol + 2)){
+      if (whichMove < 5){
+        x = startingRow + 1;
+        y = startingCol + 2;
+        board[x][y] = level;
+        return solveHelper(x, y, level + 1, 0);
+      }
+
+    }
+    if (isValid(startingRow - 1, startingCol + 2)){
+      if (whichMove < 6){
+        x = startingRow - 1;
+        y = startingCol + 2;
+        board[x][y] = level;
+        return solveHelper(x, y, level + 1, 0);
+      }
+
+    }
+    if (isValid(startingRow + 1, startingCol - 2)){
+      if (whichMove < 7){
+        x = startingRow + 1;
+        y = startingCol - 2;
+        board[x][y] = level;
+        return solveHelper(x, y, level + 1, 0);
+      }
+
+    }
+    if (isValid(startingRow - 1, startingCol - 2)){
+      if (whichMove < 8){
+        x = startingRow - 1;
+        y = startingCol - 2;
+        board[x][y] = level;
+        return solveHelper(x, y, level + 1, 0);
+      }
+
     }
     //if nothing valid, backtrack.
-    if (x == -1){
-      board[startingRow][startingCol] = 0;
-      //figure out how to not repeat the last step again.
-      return solveHelper(startingRow, startingCol, level);
-    }
+    board[startingRow][startingCol] = 0;
+    //figure out how to not repeat the last step again.
+    return solveHelper(startingRow, startingCol, level, whichMove + 1);
+
 
     )
   }
