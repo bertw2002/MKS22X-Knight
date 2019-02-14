@@ -13,15 +13,16 @@ public class KnightBoard{
 
   //constructor
   public KnightBoard(int startingRows, int startingCols){
+    board = new int[startingRows][startingCols];
     //throws exception if row/col less than or equal to zero.
     if (startingRows <= 0 || startingCols <= 0){
       throw new IllegalArgumentException();
     }
-    startRow = startingRow;
+    startRow = startingRows;
     startCol = startingCols;
     //initializes board values to 0.
     clear();
-  }board[x][y] = 0;
+  }
 
   public String toString(){
     String str = "";
@@ -57,11 +58,11 @@ public class KnightBoard{
     if (startingRow < 0 || startingCol < 0 ||startingRow > startRow || startingCol > startCol){
       throw new IllegalArgumentException();
     }
-
+    return solveHelper(startingRow, startingCol, 1, 0);
   }
   //checks if move isn't out of bounds.
   public boolean isValid(int row, int col){
-    if (row < 0 || col < 0 || row > startingRow || col > startingCol){
+    if (row < 0 || col < 0 || row > startRow|| col > startCol){
       return false;
     }
     return true;
@@ -72,7 +73,8 @@ public class KnightBoard{
     if (level == startingRow * startingCol + 1){
       return true;
     }
-    if (level = 1 && whichMove == 8){
+    if (level == 1 && whichMove == 8){
+      clear();
       return false;
     }
     board[startingRow][startingCol] = level;
@@ -154,10 +156,6 @@ public class KnightBoard{
     }
     //if nothing valid, backtrack.
     board[startingRow][startingCol] = 0;
-    //figure out how to not repeat the last step again.
     return solveHelper(startingRow, startingCol, level, whichMove + 1);
-
-
-    )
   }
 }
