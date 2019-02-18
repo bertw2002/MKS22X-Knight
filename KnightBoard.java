@@ -45,7 +45,8 @@ public class KnightBoard{
     else{
       for (int x = 0; x < startRow; x++){
         for (int y = 0; y < startCol; y++){
-          str += " " + board[x][y];
+          if (board[x][y] < 10) str += "  " + board[x][y];
+          else str += " " + board[x][y];
         }
         str += "\n";
       }
@@ -72,7 +73,8 @@ public class KnightBoard{
     if (startingRow < 0 || startingCol < 0 ||startingRow > startRow || startingCol > startCol){
       throw new IllegalArgumentException();
     }
-    return solveHelper(startingRow, startingCol, 1);
+    board[startingRow][startingCol] = 1;
+    return solveHelper(startingRow, startingCol, 2);
   }
   //checks if move isn't out of bounds.
   public boolean addKnight(int row, int col, int level){
@@ -84,24 +86,25 @@ public class KnightBoard{
   }
 
   //helper for solve.
-  public boolean solveHelper(int startingRow, int startingCol, int level){
-    if (level > startingRow * startingCol){
+  private boolean solveHelper(int startingRow, int startingCol, int level){
+    if (level > board.length * board[0].length){
       return true;
     }
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length){
       return false;
     }
     for (int x = 0; x < direction1.length; x++){
-      if (addKnight(startingRow, startingCol, level)){
+      if (addKnight(startingRow + direction1[x], startingCol + direction2[x], level)){
         if (solveHelper(startingRow + direction1[x], startingCol + direction2[x], level + 1)){
           return true;
         }
-        board[startingRow][startingCol] = 0;
+        board[startingRow + direction1[x]][startingCol + direction2[x]] = 0;
       }
     }
 
     return false;
   }
+
 
 
 }
