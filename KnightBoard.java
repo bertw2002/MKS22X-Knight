@@ -53,6 +53,7 @@ public class KnightBoard{
     }
     return str;
   }
+
   //helper that checks if board is clear.
   private boolean isClear(){
     for (int x = 0; x < startRow; x++){
@@ -64,6 +65,7 @@ public class KnightBoard{
     }
     return true;
   }
+
   public boolean solve(int startingRow, int startingCol){
     //is the board clear?
     if (!isClear()){
@@ -101,10 +103,17 @@ public class KnightBoard{
         board[startingRow + direction1[x]][startingCol + direction2[x]] = 0;
       }
     }
-
     return false;
   }
 
-
-
+  public int countSolutions(int startingRow, int startingCol){
+    if (!isClear()) throw new IllegalStateException();
+    if (startingRow < 0 || startingCol < 0 ||startingRow > startRow || startingCol > startCol){
+      throw new IllegalArgumentException();
+    }
+    return countHelper(startingRow, startingCol, 1, 0);
+  }
+  public int countHelper(int startingRow, int startingCol, int level, int solutions){
+    
+  }
 }
