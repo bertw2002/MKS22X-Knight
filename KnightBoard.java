@@ -4,7 +4,6 @@ public class KnightBoard{
   private int[][] board;
   private int[] direction1;
   private int[] direction2;
-  private int solutions;
   //helper that clears the board.
   private void clear(){
     for (int x = 0; x < startRow; x++){
@@ -27,7 +26,6 @@ public class KnightBoard{
     startCol = startingCols;
     //initializes board values to 0.
     clear();
-    solutions = 0;
   }
 
   public String toString(){
@@ -91,11 +89,11 @@ public class KnightBoard{
 
   //helper for solve.
   private boolean solveHelper(int startingRow, int startingCol, int level){
-    if (level > board.length * board[0].length){
-      return true;
-    }
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length){
       return false;
+    }
+    if (level > board.length * board[0].length){
+      return true;
     }
     for (int x = 0; x < direction1.length; x++){
       if (addKnight(startingRow + direction1[x], startingCol + direction2[x], level)){
@@ -113,27 +111,27 @@ public class KnightBoard{
     if (startingRow < 0 || startingCol < 0 ||startingRow > startRow || startingCol > startCol){
       throw new IllegalArgumentException();
     }
-    return countHelper(startingRow, startingCol, 1);
-  }
-  private boolean isSolved(){
-    for (int x = 0; x < board.length; x++){
-      for (int y = 0; y < board[0].length; y++){
-        if (board[x][y] == 0) return false;
-      }
-    }
-    return true;
+    int sols = countHelper(startingRow, startingCol, 1);
+    clear(); //clears before returning
+    return sols;
   }
   private int countHelper(int startingRow, int startingCol, int level){
-    if (isSolved()){
-      solutions++;
+    if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length){
+      return 0;
+    }
+    if (board[startingRow][startingCol] != 0){
+      return 0;
+    }
+    if (level == board.length * board[0].length){
       return 1;
     }
+    int solutions = 0;
     for (int x = 0; x < direction1.length; x++){
-      if (addKnight(startingRow + direction1[x], startingCol + direction2[x], level)){
-        countHelper(startingRow + direction1[x], startingCol + direction2[x], level + 1);
-        board[startingRow + direction1[x]][startingCol + direction2[x]] = 0;
-      }
+      board[startingRow][startingCol] = level;
+      solutions += countHelper(startingRow + direction1[x], startingCol + direction2[x], level + 1);
+      board[startingRow][startingCol] = 0;
     }
+
     return solutions;
   }
 }
