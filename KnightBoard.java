@@ -15,8 +15,8 @@ public class KnightBoard{
 
   //constructor
   public KnightBoard(int startingRows, int startingCols){
-    direction1 = new int[] {2,2,1,-1,1,-2,-2,-2};
-    direction2 = new int[] {1,-1,2,2,-2,-2,-1,1};
+    direction1 = new int[] {1, 1, -1, -1, 2, 2, -2, -2};
+    direction2 = new int[] {2, -2, 2, -2, 1, -1, 1, -1};
     board = new int[startingRows][startingCols];
     //throws exception if row/col less than or equal to zero.
     if (startingRows <= 0 || startingCols <= 0){
@@ -116,15 +116,19 @@ public class KnightBoard{
     return sols;
   }
   private int countHelper(int startingRow, int startingCol, int level){
+    //if index bad.
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length){
       return 0;
     }
+    //not supposed to backtrack, return 0.
     if (board[startingRow][startingCol] != 0){
       return 0;
     }
+    //if solved, return 1.
     if (level == board.length * board[0].length){
       return 1;
     }
+
     int solutions = 0;
     for (int x = 0; x < direction1.length; x++){
       board[startingRow][startingCol] = level;
