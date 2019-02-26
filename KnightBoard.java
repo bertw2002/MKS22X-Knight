@@ -76,7 +76,9 @@ public class KnightBoard{
       throw new IllegalArgumentException();
     }
     board[startingRow][startingCol] = 1;
-    return solveHelper(startingRow, startingCol, 2);
+    if (solveHelper(startingRow, startingCol, 2)) return true;
+    clear();
+    return false;
   }
   //checks if move isn't out of bounds.
   public boolean addKnight(int row, int col, int level){
